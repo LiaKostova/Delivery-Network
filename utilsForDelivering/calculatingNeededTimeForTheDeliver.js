@@ -1,5 +1,4 @@
 function calculatingNeededTimeForchargeandDeliver(dronPower, distance, powerReserv){
-    debugger;
     let chargedPowerPerMin = (Number(dronPower))/20;
     //neededDistance is actual equal to power;
 
