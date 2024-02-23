@@ -1,12 +1,12 @@
-function calculatingNeededTimeForchargeandDeliver(dronPower, distance, powerReserv ){
-    
+function calculatingNeededTimeForchargeandDeliver(dronPower, distance, powerReserv){
+    debugger;
     let chargedPowerPerMin = (Number(dronPower))/20;
     //neededDistance is actual equal to power;
 
     let powerWeMiss = distance - powerReserv;
 
     let alreadyChargedPower = 0;
-    let howManyMinutesChargingTakses
+    let howManyMinutesChargingTakses =0;
 
     while(alreadyChargedPower<powerWeMiss){
         alreadyChargedPower += chargedPowerPerMin;

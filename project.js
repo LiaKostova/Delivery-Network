@@ -68,8 +68,8 @@ function dronDeliveryNetwork(input){
                             allWarehouses[`${warehouseName}`].allOrdersWeCanDeliver.push(order);
                             allWarehouses[`${warehouseName}`].totalDistance +=orderDistanceBothWays;
                             allWarehouses[`${warehouseName}`].timeNeededForAllOrders+= orderTimeBothWays;
-                            whRemainingMinutesOfTheDay -=orderTimeBothWays;
-                            whDronRemainingPowerOfTheDay -=orderDistanceBothWays;
+                            allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay -=orderTimeBothWays;
+                            allWarehouses[`${warehouseName}`].remainingPowerOfTheDay -=orderDistanceBothWays;
                         }else{// no power for round trip(without charging)
                             let timeNeededForChargingAndDeliverBothWays = calculatingNeededTimeForchargeandDeliver(originaFullDronCapacityPower, orderDistanceBothWays, whDronRemainingPowerOfTheDay); // check how many min will take to charge the dron for deliver round trip.
 
@@ -77,16 +77,16 @@ function dronDeliveryNetwork(input){
                                 allWarehouses[`${warehouseName}`].allOrdersWeCanDeliver.push(order);
                                 allWarehouses[`${warehouseName}`].totalDistance +=orderDistanceBothWays;
                                 allWarehouses[`${warehouseName}`].timeNeededForAllOrders+= timeNeededForChargingAndDeliverBothWays;
-                                whRemainingMinutesOfTheDay -=timeNeededForChargingAndDeliverBothWays;
-                                whDronRemainingPowerOfTheDay = 0; // because we've loaded it just right so it can go and come back.
+                                allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay -=timeNeededForChargingAndDeliverBothWays;
+                                allWarehouses[`${warehouseName}`].remainingPowerOfTheDay = 0; // because we've loaded it just right so it can go and come back.
                             }else{
                                 if(whDronRemainingPowerOfTheDay>=orderDistanceOneWay){ // we have the power to deliver this order, but we will "lost" the drone for the rest of this day.
                                     allWarehouses[`${warehouseName}`].allOrdersWeCanDeliver.push(order);
                                     allWarehouses[`${warehouseName}`].totalDistance +=orderDistanceOneWay;
                                     allWarehouses[`${warehouseName}`].timeNeededForAllOrders += orderTimeOneWay;
                                     allWarehouses[`${warehouseName}`].undeliverableOrders.push("Our first drone filled the maximum number of orders for the day and finished.");//we will use this as a red flag because if our drone can't come back it certainly can't take any more orders. 
-                                    whRemainingMinutesOfTheDay = 0;
-                                    whDronRemainingPowerOfTheDay =0;
+                                    allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay = 0;
+                                    allWarehouses[`${warehouseName}`].remainingPowerOfTheDay =0;
                                 }else{ // we will try to charge our drone so it can fulfill this order 
                                     let timeNeededForChargingAndDeliverOneWay = calculatingNeededTimeForchargeandDeliver(originaFullDronCapacityPower, orderDistanceOneWay, whDronRemainingPowerOfTheDay); // check how many min will take to charge the dron for feliver the order (one way).
                                     
@@ -95,8 +95,8 @@ function dronDeliveryNetwork(input){
                                         allWarehouses[`${warehouseName}`].totalDistance +=orderDistanceOneWay;
                                         allWarehouses[`${warehouseName}`].timeNeededForAllOrders += timeNeededForChargingAndDeliverOneWay;
                                         allWarehouses[`${warehouseName}`].undeliverableOrders.push("Our first drone filled the maximum number of orders for the day and finished.");
-                                        whRemainingMinutesOfTheDay = 0;
-                                        whDronRemainingPowerOfTheDay =0;
+                                        allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay = 0;
+                                        allWarehouses[`${warehouseName}`].remainingPowerOfTheDay =0;
                                     }else{// we can't charge it even just to deliver the order
                                         allWarehouses[`${warehouseName}`].undeliverableOrders.push(order);
                                     }
@@ -112,8 +112,8 @@ function dronDeliveryNetwork(input){
                                     allWarehouses[`${warehouseName}`].totalDistance +=orderDistanceOneWay;
                                     allWarehouses[`${warehouseName}`].timeNeededForAllOrders += orderTimeOneWay;
                                     allWarehouses[`${warehouseName}`].undeliverableOrders.push("Our first drone filled the maximum number of orders for the day and finished.");//we will use this as a red flag because if our drone can't come back it certainly can't take any more orders. 
-                                    whRemainingMinutesOfTheDay = 0;
-                                    whDronRemainingPowerOfTheDay =0;
+                                    allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay = 0;
+                                    allWarehouses[`${warehouseName}`].remainingPowerOfTheDay =0;
                         }else{ // we will try to charge our drone so it can fulfill this order 
                             let neededTimeToDeliverOneWay = calculatingNeededTimeForchargeandDeliver(originaFullDronCapacityPower, orderDistanceOneWay, whDronRemainingPowerOfTheDay);
                             if(whRemainingMinutesOfTheDay>=neededTimeToDeliverOneWay){// successed charging
@@ -121,8 +121,8 @@ function dronDeliveryNetwork(input){
                                     allWarehouses[`${warehouseName}`].totalDistance +=orderDistanceOneWay;
                                     allWarehouses[`${warehouseName}`].timeNeededForAllOrders += neededTimeToDeliverOneWay;
                                     allWarehouses[`${warehouseName}`].undeliverableOrders.push("Our first drone filled the maximum number of orders for the day and finished.");
-                                    whRemainingMinutesOfTheDay = 0;
-                                    whDronRemainingPowerOfTheDay =0;
+                                    allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay = 0;
+                                    allWarehouses[`${warehouseName}`].remainingPowerOfTheDay =0;
                             }else{// we can't charge it even just to deliver the order
                                 allWarehouses[`${warehouseName}`].undeliverableOrders.push(order);
                             }
