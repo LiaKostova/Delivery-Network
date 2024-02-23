@@ -2,6 +2,7 @@ var fs = require('fs');
 const Order = require('./creatingClasses.js/creatingClassOrder.js');
 const initialization = require('./utilsForMainObjectCreating/mainInitialization.js');
 const isAllOrdersAreDelivered = require('./utilsForDelivering/checkDeliveryStatus.js');
+const calculatingNeededTimeForchargeandDeliver = require('./utilsForDelivering/calculatingNeededTimeForTheDeliver.js');
 const jsonData = fs.readFileSync('./input.json');
 const data = JSON.parse(jsonData);
 
@@ -43,6 +44,9 @@ function dronDeliveryNetwork(input){
         let order = allOrders.shift();
         let orderNearestWarehouse = order.nearestWarehouse;
         let warehousesNames = Object.keys(allWarehouses);
+        let warehouseValue = Object.values(allWarehouses)[0];
+        let originaFullDronCapacityPower = Number(warehouseValue.originaFullCapacityPower);
+        
 
         for(let warehouseName of warehousesNames){
             if(orderNearestWarehouse == warehouseName){// find the nearest warehouse to that order
@@ -50,6 +54,7 @@ function dronDeliveryNetwork(input){
                 let orderTimeBothWays = order.distance*2 + 5;
                 let orderDistanceOneWay = order.distance;
                 let orderTimeOneWay = order.distance + 5;
+                
 
                 let whRemainingMinutesOfTheDay = allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay;
                 let whDronRemainingPowerOfTheDay = allWarehouses[`${warehouseName}`].remainingPowerOfTheDay;
@@ -65,8 +70,17 @@ function dronDeliveryNetwork(input){
                             allWarehouses[`${warehouseName}`].timeNeededForAllOrders+= orderTimeBothWays;
                             whRemainingMinutesOfTheDay -=orderTimeBothWays;
                             whDronRemainingPowerOfTheDay -=orderDistanceBothWays;
-                           }else if(whDronRemainingPowerOfTheDay>= orderDistanceOneWay){
-                            
+                        }else{ // no power for both ways
+                            let timeNeededForChargingAndDeliverBothWays = calculatingNeededTimeForchargeandDeliver(originaFullDronCapacityPower, orderDistanceBothWays, whDronRemainingPowerOfTheDay); // check how many min will take to charge the dron for deliver round trip.
+
+                            if(whRemainingMinutesOfTheDay >=timeNeededForChargingAndDeliverBothWays){
+                                allWarehouses[`${warehouseName}`].allOrdersWeCanDeliver.push(order);
+                                allWarehouses[`${warehouseName}`].totalDistance +=orderDistanceBothWays;
+                                allWarehouses[`${warehouseName}`].timeNeededForAllOrders+= timeNeededForChargingAndDeliverBothWays;
+                                whRemainingMinutesOfTheDay -=timeNeededForChargingAndDeliverBothWays;
+                                whDronRemainingPowerOfTheDay = 0; // because we've loaded it just right so it can go and come back
+                            }
+
                            }
 
 

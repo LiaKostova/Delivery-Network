@@ -10,10 +10,10 @@ function fillMainWHObj(mainObj, arrOfWH, dronPower){
 
         if(allAlreadyTakenWHNames.length == 0){
              
-            mainObj[`${currWHName}`]= new Warehouse([], 0, 0, thePowerOfTheDroneInMin, 720, [], [],0);
+            mainObj[`${currWHName}`]= new Warehouse([], 0, 0, thePowerOfTheDroneInMin, 720, [], [],0, thePowerOfTheDroneInMin);// thePowerOfTheDroneInMin - will be used twice - one time to show how many power drone still have(at first their full power capacity) and second time - to show their original power capacity.
     
         }else if(!allAlreadyTakenWHNames.includes(currWHName)){
-            mainObj[`${currWHName}`]= new Warehouse([], 0, 0, thePowerOfTheDroneInMin, 720, [], [],0);
+            mainObj[`${currWHName}`]= new Warehouse([], 0, 0, thePowerOfTheDroneInMin, 720, [], [],0, thePowerOfTheDroneInMin);
         }
     }
 

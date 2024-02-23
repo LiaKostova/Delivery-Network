@@ -1,5 +1,5 @@
 class Warehouse{
-    constructor(allOrdersWeCanDeliver, totalDistance, timeNeededForAllOrders, remainingPowerOfTheDay, remainingMinutesOfTheDay, undeliverableOrders, temporarilyPossibleOrders, temporarilyPossibleOrdersDistnace ){
+    constructor(allOrdersWeCanDeliver, totalDistance, timeNeededForAllOrders, remainingPowerOfTheDay, remainingMinutesOfTheDay, undeliverableOrders, temporarilyPossibleOrders, temporarilyPossibleOrdersDistnace, originaFullCapacityPower ){
         this.allOrdersWeCanDeliver = allOrdersWeCanDeliver;
         this.totalDistance= totalDistance;
         this.timeNeededForAllOrders = timeNeededForAllOrders;
@@ -8,6 +8,7 @@ class Warehouse{
         this.undeliverableOrders = undeliverableOrders;
         this.temporarilyPossibleOrders = temporarilyPossibleOrders;
         this.temporarilyPossibleOrdersDistnace = temporarilyPossibleOrdersDistnace;
+        this.originaFullCapacityPower = originaFullCapacityPower;
     }
 }
 
