@@ -45,22 +45,42 @@ function dronDeliveryNetwork(input){
         let warehousesNames = Object.keys(allWarehouses);
 
         for(let warehouseName of warehousesNames){
-            if(orderNearestWarehouse == warehouseName){
+            if(orderNearestWarehouse == warehouseName){// find the nearest warehouse to that order
                 let orderDistanceBothWays = order.distance*2;
                 let orderTimeBothWays = order.distance*2 + 5;
+                let orderDistanceOneWay = order.distance;
+                let orderTimeOneWay = order.distance + 5;
 
-                if(allWarehouses[`${warehouseName}`].remainingPowerOfTheDay >= orderTimeBothWays){
-                    allWarehouses[`${warehouseName}`].allOrdersWeCanDeliver.push(order);
-                    allWarehouses[`${warehouseName}`].totalDistance +=orderDistanceBothWays;
-                    allWarehouses[`${warehouseName}`].timeNeededForAllOrders+= orderTimeBothWays;
-                    allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay -=orderTimeBothWays;
-                    allWarehouses[`${warehouseName}`].remainingPowerOfTheDay -=orderDistanceBothWays;
-                }else{
+                let whRemainingMinutesOfTheDay = allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay;
+                let whDronRemainingPowerOfTheDay = allWarehouses[`${warehouseName}`].remainingPowerOfTheDay;
+
+                if((allWarehouses[`${warehouseName}`].undeliverableOrders).length !==0){ // if we have not been able to fulfill the nearest order, we will not be able to fulfill the next (more distant) order.
                     allWarehouses[`${warehouseName}`].undeliverableOrders.push(order);
-                }
-               
-               
-               
+                }else{
+                        
+                     if(whRemainingMinutesOfTheDay >=orderTimeBothWays){ // if we have the time the order - both ways!(go and back to the wh).
+                        if(whDronRemainingPowerOfTheDay >= orderDistanceBothWays){// if the warehouse(the drone) has the power to deliver this order -bothWays!
+                            allWarehouses[`${warehouseName}`].allOrdersWeCanDeliver.push(order);
+                            allWarehouses[`${warehouseName}`].totalDistance +=orderDistanceBothWays;
+                            allWarehouses[`${warehouseName}`].timeNeededForAllOrders+= orderTimeBothWays;
+                            whRemainingMinutesOfTheDay -=orderTimeBothWays;
+                            whDronRemainingPowerOfTheDay -=orderDistanceBothWays;
+                           }else if(whDronRemainingPowerOfTheDay>= orderDistanceOneWay){
+                            
+                           }
+
+
+                     }else if(whDronRemainingPowerOfTheDay >= orderTimeOneWay){ // if we have time to deliver this order (the drone doesn't have time to return to the warehouse)
+
+                     }else{ //we dont have left time for that order
+                        allWarehouses[`${warehouseName}`].undeliverableOrders.push(order);
+                      }
+
+
+
+                  
+
+                }         
             }
         }
 
