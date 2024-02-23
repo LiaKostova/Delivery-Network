@@ -34,7 +34,43 @@ function dronDeliveryNetwork(input){
     console.log(allWarehouses);
     
 
-   
+    //Part Two
+    //Efficient order processing - Pre-sorting orders based on distance for optimal efficiency.
+    allOrders.sort((a,b) =>a.distance - b.distance);
+        
+    //We determine the nearest warehouse for an order and check if it is possible for the warehouse (the drone belonging to this warehouse) to complete the order.
+    while(allOrders.length !==0){
+        let order = allOrders.shift();
+        let orderNearestWarehouse = order.nearestWarehouse;
+        let warehousesNames = Object.keys(allWarehouses);
+
+        for(let warehouseName of warehousesNames){
+            if(orderNearestWarehouse == warehouseName){
+                let orderDistanceBothWays = order.distance*2;
+                let orderTimeBothWays = order.distance*2 + 5;
+
+                if(allWarehouses[`${warehouseName}`].remainingPowerOfTheDay >= orderTimeBothWays){
+                    allWarehouses[`${warehouseName}`].allOrdersWeCanDeliver.push(order);
+                    allWarehouses[`${warehouseName}`].totalDistance +=orderDistanceBothWays;
+                    allWarehouses[`${warehouseName}`].timeNeededForAllOrders+= orderTimeBothWays;
+                    allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay -=orderTimeBothWays;
+                    allWarehouses[`${warehouseName}`].remainingPowerOfTheDay -=orderDistanceBothWays;
+                }else{
+                    allWarehouses[`${warehouseName}`].undeliverableOrders.push(order);
+                }
+               
+               
+               
+            }
+        }
+
+    }
+    //Check if all warehouses can fulfill their orders with one drone without recharge.
+    let isOrdersAreDelivered = isAllOrdersAreDelivered(allWarehouses);
+    console.log(isOrdersAreDelivered);
+    console.log(allWarehouses);
+    console.log(allOrders);
+
   
 
 }
