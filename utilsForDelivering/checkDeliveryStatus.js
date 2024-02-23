@@ -3,14 +3,19 @@ function isAllOrdersAreDelivered(arrOfWh){
     for (const [wh, whInfo] of Object.entries(arrOfWh)) {
        let undeliverableOrders = whInfo.undeliverableOrders;
        if(undeliverableOrders.length !==0){
-        allOrdersAreDeliveried = false;
+            if(undeliverableOrders.length == '1' && undeliverableOrders[0]== 'Our first drone filled the maximum number of orders for the day and finished.'){
+                allOrdersAreDeliveried = true;
+            }else{
+                allOrdersAreDeliveried = false;
+            }
+        
         break;
        }        
     }
     if(allOrdersAreDeliveried == true){
         return true;
     }else{
-        return "Don't have enough drons power!"
+        return false;
     }
 }
 

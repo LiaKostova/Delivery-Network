@@ -2,7 +2,6 @@ var fs = require('fs');
 const Order = require('./creatingClasses.js/creatingClassOrder.js');
 const initialization = require('./utilsForMainObjectCreating/mainInitialization.js');
 const isAllOrdersAreDelivered = require('./utilsForDelivering/checkDeliveryStatus.js');
-const calculatingNeededTimeForchargeandDeliver = require('./utilsForDelivering/calculatingNeededTimeForTheDeliver.js');
 const trakingtheAbilityToFulfillTheOrder = require('./utilsForDelivering/trakingTheAbilityToFulFillTheOrders.js');
 const jsonData = fs.readFileSync('./input.json');
 const data = JSON.parse(jsonData);
@@ -32,23 +31,28 @@ function dronDeliveryNetwork(input){
     let allOrders = [];
   
     initialization(warehouses, orders, products, customers, allWarehouses, allOrders, arrOfClientsObjs, typeOfDrones);
-    console.log(allOrders);
-    console.log(allWarehouses);
-    
-
+  
     //Part Two
     //Efficient order processing - Pre-sorting orders based on distance for optimal efficiency.
     allOrders.sort((a,b) =>a.distance - b.distance);
-    console.log(allOrders);
         
     //We determine the nearest warehouse for an order and check if it is possible for the warehouse (the drone belonging to this warehouse) to complete the order.
-    allWarehouses = trakingtheAbilityToFulfillTheOrder(allOrders, allWarehouses)
-    //Check if all warehouses can fulfill their orders with one drone without recharge.
-    let isOrdersAreDelivered = isAllOrdersAreDelivered(allWarehouses);
-    console.log(isOrdersAreDelivered);
+    let deliveredAtleastOneOrder = trakingtheAbilityToFulfillTheOrder(allOrders, allWarehouses);
+    console.log(deliveredAtleastOneOrder);
     console.log(allWarehouses);
-    console.log(allOrders);
 
+    let isOrdersAreDeliveredAllOfThem = isAllOrdersAreDelivered(allWarehouses);
+
+    if(isOrdersAreDeliveredAllOfThem == true){
+        console.log('///Put your output here!')
+    }else{
+        //to do
+    }
+    
+    //Check if all warehouses can fulfill their orders with one drone without recharge.
+    
+    console.log(isOrdersAreDelivered);
+    
   
 
 }
