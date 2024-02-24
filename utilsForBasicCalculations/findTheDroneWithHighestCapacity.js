@@ -5,7 +5,6 @@ function findHighestPower(arrOfDronsTypies){
     let consumptionOfTheOneWithHighestCapacity = 0;
     let type ='';
     let actualPowerWPerMin = 0;
-    console.log(arrOfDronsTypies);
 
     for (const currantDroneType of arrOfDronsTypies){
 

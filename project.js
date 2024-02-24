@@ -64,29 +64,47 @@ function dronDeliveryNetwork(input){
             //if this is false - we need new drone;
             if(areWedeliverAllOrders == false){
             //revert the data to the state prior to attempting to distributer orders (those whose nearest warehouse failed to fulfill) to drones with available capacity
-                returnAllPropertiesTheirOriginalValues(allWarehouses);
+            //We "remove" the consequences of the unsuccessful attempt to distribute the orders 
+                 returnAllPropertiesTheirOriginalValues(allWarehouses);
                 for(let warehouseValuesAsObject of Object.values(allWarehouses)){
                     returnOrdersTheirOrigibalInfo(warehouseValuesAsObject.allOrdersWeCanDeliver);
                     returnOrdersTheirOrigibalInfo(warehouseValuesAsObject.undeliverableOrders);
                 }
-                console.log(allWarehouses);
 
                 let inWhichWarehouseToBuyNewDrone = findWhereToBuyNewDrone(allWarehouses); //The warehouse that needs a new drone the most is the one with the highest total distance of unfulfilled orders
                 allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].numOfTotalUsedDrones ++;
                 allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].haveIdeliveredOrderFromThisWh =0;
                 allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].remainingMinutesOfTheDay=720;
                 allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].remainingPowerOfTheDay = findHighestPower(typeOfDrones).actualPowerWPerMin;
-                
+
+                let arrayOfUndeliveredOrders = [];
+                let theWarehouseUdeliveredOrdersArr = allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].undeliverableOrders;
+
+                for (let currOrder of theWarehouseUdeliveredOrdersArr) {
+                    if(currOrder !== 'Our first drone filled the maximum number of orders for the day and finished.'){
+                        arrayOfUndeliveredOrders.push(currOrder);
+                    }
+                    
+                }
+                allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].undeliverableOrders = [];
+                theWarehouseAsObject = {};
+                theWarehouseAsObject[`${inWhichWarehouseToBuyNewDrone}`] =  allWarehouses[`${inWhichWarehouseToBuyNewDrone}`];
+
+                deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder(arrayOfUndeliveredOrders,theWarehouseAsObject );
+
+                let checkAreWedeliverAllOrders = allUndeliveredOrders(allWarehouses);
+                if(checkAreWedeliverAllOrders.length == 0){
+                    areWedeliverAllOrders = true;
+                }else{
+                    copyALlObjProperties(allWarehouses[`${inWhichWarehouseToBuyNewDrone}`]);
+                }
                 
             }
-          
-
-          //where to buy newDron - > un
 
         }
     }
-  
 
+console.log(allWarehouses)
 }
 
 dronDeliveryNetwork(data);
