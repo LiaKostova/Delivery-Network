@@ -1,7 +1,7 @@
 const Order = require("../creatingClasses.js/creatingClassOrder.js");
 const calculatingKg = require("../utilsForBasicCalculations/calculatingKg.js");
 const findHighestPower = require("../utilsForBasicCalculations/findTheDroneWithHighestCapacity.js");
-const arrCopyWithoutProperty = require("../utilsForBasicCalculations/makingArrCopy.js");
+const arrCopyWithoutProperty = require("../utilsForMakingCopies/makingArrCopy.js");
 const fillArrWithClientInfo = require("./fillClientsArrayWithWH.js");
 const fillMainWHObj = require("./fillMainWarehoseObj.js");
 
