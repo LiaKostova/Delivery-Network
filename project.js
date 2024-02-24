@@ -3,7 +3,10 @@ const Order = require('./creatingClasses.js/creatingClassOrder.js');
 const initialization = require('./utilsForMainObjectCreating/mainInitialization.js');
 const isAllOrdersAreDelivered = require('./utilsForDelivering/checkDeliveryStatus.js');
 const deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder = require('./utilsForDelivering/trakingTheAbilityToFulFillTheOrders.js');
-const copyALlObjProperties = require('./utilsForDelivering/copyALLObjProperties.js');
+const copyALlObjProperties = require('./utilsForMakingCopies/copyALLObjProperties.js');
+const capableOfDeliveryWH = require('./utilsForMakingCopies/onlyCapableOfDeliveryWH.js');
+const allUndeliveredOrders = require('./utilsForMakingCopies/allUndelivеredOrders.js');
+const findOrderNearestWarehouse = require('./utilsForDelivering/findOrderNearestWH.js');
 const jsonData = fs.readFileSync('./input.json');
 const data = JSON.parse(jsonData);
 
@@ -39,27 +42,34 @@ function dronDeliveryNetwork(input){
         
     //We determine the nearest warehouse for an order and check if it is possible for the warehouse (the drone belonging to this warehouse) to complete the order.
     let deliveredAtleastOneOrder = deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder(allOrders, allWarehouses);
-    console.log(deliveredAtleastOneOrder);
-    console.log(allWarehouses);
 
     let isOrdersAreDeliveredAllOfThem = isAllOrdersAreDelivered(allWarehouses);
 
     if(isOrdersAreDeliveredAllOfThem !== true){ //Check if all warehouses can fulfill their orders with one drone.
-        let allWarehousesValues = Object.values(allWarehouses); 
-        for(let wh of allWarehousesValues){
+        for(let wh of Object.values(allWarehouses)){
             copyALlObjProperties(wh);
         }
-
+        let allOFUndeliveredOrdersOriginal = allUndeliveredOrders(allWarehouses);//add properties for each Undelivered Oder to keep its original info about the nearest wh and the distance.
+         for(let cuurantOrderOriginal of allOFUndeliveredOrdersOriginal){
+             cuurantOrderOriginal.originalNearestWh = cuurantOrderOriginal.nearestWarehouse;
+            cuurantOrderOriginal.originalDistance = cuurantOrderOriginal.distance;
+        }
+        
         let potentialNeedForANewDron = true;
         while(potentialNeedForANewDron){
-            
+            let arrOfTheCapableOfOrdersWHs = capableOfDeliveryWH(allWarehouses);  
+            let allOFUndeliveredOrders = allUndeliveredOrders(allWarehouses);
+
+           if(arrOfTheCapableOfOrdersWHs.length !==0){
+             for(let ord of allOFUndeliveredOrders){
+                let [nearestWH, distance] = findOrderNearestWarehouse(ord, arrOfTheCapableOfOrdersWHs);
+                ord.distance = distance;
+                ord.nearestWarehouse = nearestWH;                
+             }
+           }
+
         }
     }
-    
-    
-    
-    console.log(isOrdersAreDeliveredAllOfThem);
-    
   
 
 }
