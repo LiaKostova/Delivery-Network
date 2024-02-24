@@ -2,7 +2,7 @@ var fs = require('fs');
 const Order = require('./creatingClasses.js/creatingClassOrder.js');
 const initialization = require('./utilsForMainObjectCreating/mainInitialization.js');
 const isAllOrdersAreDelivered = require('./utilsForDelivering/checkDeliveryStatus.js');
-const trakingtheAbilityToFulfillTheOrder = require('./utilsForDelivering/trakingTheAbilityToFulFillTheOrders.js');
+const deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder = require('./utilsForDelivering/trakingTheAbilityToFulFillTheOrders.js');
 const jsonData = fs.readFileSync('./input.json');
 const data = JSON.parse(jsonData);
 
@@ -37,21 +37,19 @@ function dronDeliveryNetwork(input){
     allOrders.sort((a,b) =>a.distance - b.distance);
         
     //We determine the nearest warehouse for an order and check if it is possible for the warehouse (the drone belonging to this warehouse) to complete the order.
-    let deliveredAtleastOneOrder = trakingtheAbilityToFulfillTheOrder(allOrders, allWarehouses);
+    let deliveredAtleastOneOrder = deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder(allOrders, allWarehouses);
     console.log(deliveredAtleastOneOrder);
     console.log(allWarehouses);
 
     let isOrdersAreDeliveredAllOfThem = isAllOrdersAreDelivered(allWarehouses);
 
-    if(isOrdersAreDeliveredAllOfThem == true){
-        console.log('///Put your output here!')
-    }else{
-        //to do
+    if(isOrdersAreDeliveredAllOfThem !== true){ //Check if all warehouses can fulfill their orders with one drone.
+        
     }
     
-    //Check if all warehouses can fulfill their orders with one drone without recharge.
     
-    console.log(isOrdersAreDelivered);
+    
+    console.log(isOrdersAreDeliveredAllOfThem);
     
   
 

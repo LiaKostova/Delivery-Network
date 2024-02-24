@@ -7,7 +7,10 @@ const calculatingNeededTimeForchargeandDeliver = require("./calculatingNeededTim
 //!!
 //The main logic behind this function and how it works can be seen in its 'Graphical Representation,' which is located at -DeliveryLogic.html
 
-function trakingtheAbilityToFulfillTheOrder(allOrders, allWarehouses){
+function deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder(allOrders, allWarehouses){
+    if(allOrders.length == 0 || allWarehouses.length ==0){
+        return false;
+    }
     let haveIDeliveredAtleastOneOrder = false;
     while(allOrders.length !==0){
         let order = allOrders.shift();
@@ -40,6 +43,7 @@ function trakingtheAbilityToFulfillTheOrder(allOrders, allWarehouses){
                             allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay -=orderTimeBothWays;
                             allWarehouses[`${warehouseName}`].remainingPowerOfTheDay -=orderDistanceBothWays;
                             haveIDeliveredAtleastOneOrder = true;
+                            allWarehouses[`${warehouseName}`].haveIdeliveredOrder = 1;
                         }else{// no power for round trip(without charging)
                             let timeNeededForChargingAndDeliverBothWays = calculatingNeededTimeForchargeandDeliver(originaFullDronCapacityPower, orderDistanceBothWays, whDronRemainingPowerOfTheDay); // check how many min will take to charge the dron for deliver round trip.
 
@@ -50,6 +54,7 @@ function trakingtheAbilityToFulfillTheOrder(allOrders, allWarehouses){
                                 allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay -=timeNeededForChargingAndDeliverBothWays;
                                 allWarehouses[`${warehouseName}`].remainingPowerOfTheDay = 0; // because we've loaded it just right so it can go and come back.
                                 haveIDeliveredAtleastOneOrder = true;
+                                allWarehouses[`${warehouseName}`].haveIdeliveredOrder = 1;
                             }else{
                                 if(whDronRemainingPowerOfTheDay>=orderDistanceOneWay){ // we have the power to deliver this order, but we will "lost" the drone for the rest of this day.
                                     allWarehouses[`${warehouseName}`].allOrdersWeCanDeliver.push(order);
@@ -59,6 +64,7 @@ function trakingtheAbilityToFulfillTheOrder(allOrders, allWarehouses){
                                     allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay = 0;
                                     allWarehouses[`${warehouseName}`].remainingPowerOfTheDay =0;
                                     haveIDeliveredAtleastOneOrder = true;
+                                    allWarehouses[`${warehouseName}`].haveIdeliveredOrder = 1;
                                 }else{ // we will try to charge our drone so it can fulfill this order 
                                     let timeNeededForChargingAndDeliverOneWay = calculatingNeededTimeForchargeandDeliver(originaFullDronCapacityPower, orderDistanceOneWay, whDronRemainingPowerOfTheDay); // check how many min will take to charge the dron for feliver the order (one way).
                                     
@@ -70,6 +76,7 @@ function trakingtheAbilityToFulfillTheOrder(allOrders, allWarehouses){
                                         allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay = 0;
                                         allWarehouses[`${warehouseName}`].remainingPowerOfTheDay =0;
                                         haveIDeliveredAtleastOneOrder = true;
+                                        allWarehouses[`${warehouseName}`].haveIdeliveredOrder = 1;
                                     }else{// we can't charge it even just to deliver the order
                                         allWarehouses[`${warehouseName}`].undeliverableOrders.push(order);
                                     }
@@ -88,6 +95,7 @@ function trakingtheAbilityToFulfillTheOrder(allOrders, allWarehouses){
                                     allWarehouses[`${warehouseName}`].remainingMinutesOfTheDay = 0;
                                     allWarehouses[`${warehouseName}`].remainingPowerOfTheDay =0;
                                     haveIDeliveredAtleastOneOrder = true;
+                                    allWarehouses[`${warehouseName}`].haveIdeliveredOrder = 1;
                         }else{ // we will try to charge our drone so it can fulfill this order 
                             let neededTimeToDeliverOneWay = calculatingNeededTimeForchargeandDeliver(originaFullDronCapacityPower, orderDistanceOneWay, whDronRemainingPowerOfTheDay);
                             if(whRemainingMinutesOfTheDay>=neededTimeToDeliverOneWay){// successed charging
@@ -122,4 +130,4 @@ function trakingtheAbilityToFulfillTheOrder(allOrders, allWarehouses){
     return haveIDeliveredAtleastOneOrder;
 }
 
-module.exports = trakingtheAbilityToFulfillTheOrder;
+module.exports = deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder;

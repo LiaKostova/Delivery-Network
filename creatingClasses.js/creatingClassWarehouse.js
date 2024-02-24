@@ -1,5 +1,5 @@
 class Warehouse{
-    constructor(allOrdersWeCanDeliver, totalDistance, timeNeededForAllOrders, remainingPowerOfTheDay, remainingMinutesOfTheDay, undeliverableOrders,originaFullCapacityPower){
+    constructor(allOrdersWeCanDeliver, totalDistance, timeNeededForAllOrders, remainingPowerOfTheDay, remainingMinutesOfTheDay, undeliverableOrders,originaFullCapacityPower, numOfTotalUsedDrones, haveIdeliveredOrderFromThisWh){
         this.allOrdersWeCanDeliver = allOrdersWeCanDeliver;
         this.totalDistance= totalDistance;
         this.timeNeededForAllOrders = timeNeededForAllOrders;
@@ -7,6 +7,8 @@ class Warehouse{
         this.remainingMinutesOfTheDay = remainingMinutesOfTheDay;
         this.undeliverableOrders = undeliverableOrders;
         this.originaFullCapacityPower = originaFullCapacityPower;
+        this.numOfTotalUsedDrones = numOfTotalUsedDrones;
+        this.haveIdeliveredOrderFromThisWh = haveIdeliveredOrderFromThisWh;// 0== false; 1=true;
     }
 }
 
