@@ -8,6 +8,10 @@ const capableOfDeliveryWH = require('./utilsForMakingCopies/onlyCapableOfDeliver
 const allUndeliveredOrders = require('./utilsForMakingCopies/allUndelivеredOrders.js');
 const findOrderNearestWarehouse = require('./utilsForDelivering/findOrderNearestWH.js');
 const relocationAllUndeliveredOrdersAndFulfillThem = require('./utilsForDelivering/relocation.js');
+const returnAllPropertiesTheirOriginalValues = require('./utilsForMakingCopies/returnAllOriginalPropertiesValues.js');
+const returnOrdersTheirOrigibalInfo = require('./utilsForMakingCopies/returnOrdersTheirOriginalInfo.js');
+const findWhereToBuyNewDrone = require('./utilsForDelivering/findWhereToBuyANewDrone.js');
+const findHighestPower = require('./utilsForBasicCalculations/findTheDroneWithHighestCapacity.js');
 const jsonData = fs.readFileSync('./input.json');
 const data = JSON.parse(jsonData);
 
@@ -50,19 +54,34 @@ function dronDeliveryNetwork(input){
         for(let wh of Object.values(allWarehouses)){
             copyALlObjProperties(wh);
         }
-        let allOFUndeliveredOrdersOriginal = allUndeliveredOrders(allWarehouses);
+       
          
         let areWedeliverAllOrders = false;
         while(areWedeliverAllOrders == false){
             //chech can we still make a relocation all orders (fulfillthem)
             areWedeliverAllOrders = relocationAllUndeliveredOrdersAndFulfillThem(allWarehouses);
-           //if this is false - we need new drone;
+           
+            //if this is false - we need new drone;
+            if(areWedeliverAllOrders == false){
+            //revert the data to the state prior to attempting to distributer orders (those whose nearest warehouse failed to fulfill) to drones with available capacity
+                returnAllPropertiesTheirOriginalValues(allWarehouses);
+                for(let warehouseValuesAsObject of Object.values(allWarehouses)){
+                    returnOrdersTheirOrigibalInfo(warehouseValuesAsObject.allOrdersWeCanDeliver);
+                    returnOrdersTheirOrigibalInfo(warehouseValuesAsObject.undeliverableOrders);
+                }
+                console.log(allWarehouses);
 
+                let inWhichWarehouseToBuyNewDrone = findWhereToBuyNewDrone(allWarehouses); //The warehouse that needs a new drone the most is the one with the highest total distance of unfulfilled orders
+                allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].numOfTotalUsedDrones ++;
+                allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].haveIdeliveredOrderFromThisWh =0;
+                allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].remainingMinutesOfTheDay=720;
+                allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].remainingPowerOfTheDay = findHighestPower(typeOfDrones).actualPowerWPerMin;
+                
+                
+            }
+          
 
-           // all properties values allWarehouse  === thier temporary(original);
-           // all orders which have origanal value ==> normal == origal;
-
-           //where to buy newDron - > un
+          //where to buy newDron - > un
 
         }
     }

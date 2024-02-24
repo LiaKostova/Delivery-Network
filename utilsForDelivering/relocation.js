@@ -1,4 +1,7 @@
+const allUndeliveredOrders = require("../utilsForMakingCopies/allUndelivеredOrders.js");
+const capableOfDeliveryWH = require("../utilsForMakingCopies/onlyCapableOfDeliveryWH.js");
 const deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder = require("./deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder.js");
+const findOrderNearestWarehouse = require("./findOrderNearestWH.js");
 
 function relocationAllUndeliveredOrdersAndFulfillThem(allWarehouses){
     
