@@ -3,6 +3,7 @@ const Order = require('./creatingClasses.js/creatingClassOrder.js');
 const initialization = require('./utilsForMainObjectCreating/mainInitialization.js');
 const isAllOrdersAreDelivered = require('./utilsForDelivering/checkDeliveryStatus.js');
 const deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder = require('./utilsForDelivering/trakingTheAbilityToFulFillTheOrders.js');
+const copyALlObjProperties = require('./utilsForDelivering/copyALLObjProperties.js');
 const jsonData = fs.readFileSync('./input.json');
 const data = JSON.parse(jsonData);
 
@@ -44,7 +45,15 @@ function dronDeliveryNetwork(input){
     let isOrdersAreDeliveredAllOfThem = isAllOrdersAreDelivered(allWarehouses);
 
     if(isOrdersAreDeliveredAllOfThem !== true){ //Check if all warehouses can fulfill their orders with one drone.
-        
+        let allWarehousesValues = Object.values(allWarehouses); 
+        for(let wh of allWarehousesValues){
+            copyALlObjProperties(wh);
+        }
+
+        let potentialNeedForANewDron = true;
+        while(potentialNeedForANewDron){
+            
+        }
     }
     
     
