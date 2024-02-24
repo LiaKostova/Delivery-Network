@@ -7,7 +7,7 @@ class Warehouse{
         this.remainingMinutesOfTheDay = remainingMinutesOfTheDay;
         this.undeliverableOrders = undeliverableOrders;
         this.originaFullCapacityPower = originaFullCapacityPower;
-        this.numOfTotalUsedDrones = numOfTotalUsedDrones;
+        this.numOfTotalUsedDrones = numOfTotalUsedDrones;////The 'numOfTotalUsedDrones' metric includes all complementary drones. The 'haveIdeliveredOrderFromThisWh' indicator shows 0 if we haven't delivered from this warehouse (this drone) and 1 if we have
         this.haveIdeliveredOrderFromThisWh = haveIdeliveredOrderFromThisWh;// 0== false; 1=true;
         this.x=x;
         this.y=y;

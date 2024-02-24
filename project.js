@@ -47,6 +47,8 @@ function dronDeliveryNetwork(input){
         
     //We determine the nearest warehouse for an order and check if it is possible for the warehouse (the drone belonging to this warehouse) to complete the order.
     let deliveredAtleastOneOrder = deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder(allOrders, allWarehouses);
+    
+
 
     let isOrdersAreDeliveredAllOfThem = isAllOrdersAreDelivered(allWarehouses);
 
@@ -70,6 +72,8 @@ function dronDeliveryNetwork(input){
                     returnOrdersTheirOrigibalInfo(warehouseValuesAsObject.allOrdersWeCanDeliver);
                     returnOrdersTheirOrigibalInfo(warehouseValuesAsObject.undeliverableOrders);
                 }
+
+                //The warehouse that recently acquired a new drone is attempting to fulfill all previously failed orders using the new drone. Subsequently, we check for any outstanding orders. If there are any, we make another attempt to distribute the remaining deliveries among the drones. If a new drone is required, we purchase one for the warehouse in need. This process continues until all deliveries are fulfilled.
 
                 let inWhichWarehouseToBuyNewDrone = findWhereToBuyNewDrone(allWarehouses); //The warehouse that needs a new drone the most is the one with the highest total distance of unfulfilled orders
                 allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].numOfTotalUsedDrones ++;
@@ -102,9 +106,20 @@ function dronDeliveryNetwork(input){
             }
 
         }
+    }else{
+        /// check can we delivered all orders with less drones;
     }
 
-console.log(allWarehouses)
+    let totalUsedDrones = 0;
+    for(let warehouse of Object.values(allWarehouses)){
+        //
+        totalUsedDrones += warehouse.numOfTotalUsedDrones; //The 'numOfTotalUsedDrones' metric includes all complementary drones. The 'haveIdeliveredOrderFromThisWh' indicator shows 0 if we haven't delivered from this warehouse (this drone) and 1 if we have.
+        totalUsedDrones +=warehouse.haveIdeliveredOrderFromThisWh;
+    }
+    console.log(totalUsedDrones);
+
+console.log(allWarehouses);
+
 }
 
 dronDeliveryNetwork(data);
