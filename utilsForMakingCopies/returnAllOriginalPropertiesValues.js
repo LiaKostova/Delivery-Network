@@ -1,14 +1,18 @@
+// I revert the data to the state prior to attempting to distributer orders (those whose nearest warehouse failed to fulfill) to drones with available capacity
+function returnAllPropertiesTheirOriginalValues(allWarehouse){
 
+    for( let [whName, whObjectProperties] of Object.entries(allWarehouse)) {
+        let wareHousesPropertiesKeys = Object.keys(whObjectProperties);
+                
+        for( let currantKey of wareHousesPropertiesKeys){
+             if(!currantKey.includes('original')){
 
-function returnAllPropertiesTheirOriginalValues(arrWr){
-    let wareHousesPropertiesKeys = Object.key(arrWr);
-    for( let currantKey of wareHousesPropertiesKeys){
-        if(!currantKey.includes('origanls')){
-            let theNameOfTheOriganalKey = 'original' + currantKey;
-            arrWr[`${currantKey}`] =  arrWr[`${theNameOfTheOriganalKey}`];
+               let theNameOfTheOriganalKey = 'original' + currantKey;
+               whObjectProperties[`${currantKey}`] =  whObjectProperties[`${theNameOfTheOriganalKey}`];
+             }
+         }
 
-        }
-    }
+    } 
 
    
 }

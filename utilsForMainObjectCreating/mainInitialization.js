@@ -33,7 +33,7 @@ for(let order of orders){
             let orderLeftAvailableWH = arrCopyWithoutProperty(warehouses, clientInfo.nearestWH);
             let orderCoordinates = clientInfo.clientCoordinates;
             let originalDistance = orderDistance;
-            let originalWarehouse = nearestWH;
+            let originalWarehouse = orderNearestWh;
             ordersArrayFilledWithObjs.push(new Order(orderNearestWh, orderDistance, orderLeftAvailableWH, totalOrderWeightKg, clientId, orderCoordinates, originalDistance, originalWarehouse));
            
         }
