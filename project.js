@@ -2,11 +2,12 @@ var fs = require('fs');
 const Order = require('./creatingClasses.js/creatingClassOrder.js');
 const initialization = require('./utilsForMainObjectCreating/mainInitialization.js');
 const isAllOrdersAreDelivered = require('./utilsForDelivering/checkDeliveryStatus.js');
-const deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder = require('./utilsForDelivering/trakingTheAbilityToFulFillTheOrders.js');
+const deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder = require('./utilsForDelivering/deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder.js');
 const copyALlObjProperties = require('./utilsForMakingCopies/copyALLObjProperties.js');
 const capableOfDeliveryWH = require('./utilsForMakingCopies/onlyCapableOfDeliveryWH.js');
 const allUndeliveredOrders = require('./utilsForMakingCopies/allUndelivеredOrders.js');
 const findOrderNearestWarehouse = require('./utilsForDelivering/findOrderNearestWH.js');
+const relocationAllUndeliveredOrdersAndFulfillThem = require('./utilsForDelivering/relocation.js');
 const jsonData = fs.readFileSync('./input.json');
 const data = JSON.parse(jsonData);
 
@@ -49,24 +50,19 @@ function dronDeliveryNetwork(input){
         for(let wh of Object.values(allWarehouses)){
             copyALlObjProperties(wh);
         }
-        let allOFUndeliveredOrdersOriginal = allUndeliveredOrders(allWarehouses);//add properties for each Undelivered Oder to keep its original info about the nearest wh and the distance.
-         for(let cuurantOrderOriginal of allOFUndeliveredOrdersOriginal){
-             cuurantOrderOriginal.originalNearestWh = cuurantOrderOriginal.nearestWarehouse;
-            cuurantOrderOriginal.originalDistance = cuurantOrderOriginal.distance;
-        }
-        
-        let potentialNeedForANewDron = true;
-        while(potentialNeedForANewDron){
-            let arrOfTheCapableOfOrdersWHs = capableOfDeliveryWH(allWarehouses);  
-            let allOFUndeliveredOrders = allUndeliveredOrders(allWarehouses);
+        let allOFUndeliveredOrdersOriginal = allUndeliveredOrders(allWarehouses);
+         
+        let areWedeliverAllOrders = false;
+        while(areWedeliverAllOrders == false){
+            //chech can we still make a relocation all orders (fulfillthem)
+            areWedeliverAllOrders = relocationAllUndeliveredOrdersAndFulfillThem(allWarehouses);
+           //if this is false - we need new drone;
 
-           if(arrOfTheCapableOfOrdersWHs.length !==0){
-             for(let ord of allOFUndeliveredOrders){
-                let [nearestWH, distance] = findOrderNearestWarehouse(ord, arrOfTheCapableOfOrdersWHs);
-                ord.distance = distance;
-                ord.nearestWarehouse = nearestWH;                
-             }
-           }
+
+           // all properties values allWarehouse  === thier temporary(original);
+           // all orders which have origanal value ==> normal == origal;
+
+           //where to buy newDron - > un
 
         }
     }
