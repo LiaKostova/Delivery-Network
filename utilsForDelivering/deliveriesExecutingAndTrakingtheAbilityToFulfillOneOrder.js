@@ -1,7 +1,7 @@
 const calculatingNeededTimeForchargeandDeliver = require("./calculatingNeededTimeForTheDeliver.js");
 
 //This function is responsible for tracking the warehouses' ability to fulfill orders that are nearest to them!
-//And return if i fulfill atleast one order.
+//And return if we fulfill atleast one order.
 
 
 //!!
@@ -25,7 +25,7 @@ function deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder(allOrders, all
                 let orderKg = order.kg;
                 let clearDistanceOnlyInMapUnitsBothWays = order.distance*2;
                 let clearDistanceOnlyInMapUnitsOneWay = order.distance;
-                //When we include kilograms in the calculation to see how much consumption there is, we can simply multiply the distance of the rest (this is actually our consumption with 1 kg) by the kilograms of the order.
+                //When we include kilograms in the calculation, to see how much the consumption is, we can simply multiply the one-way distance (which is actually our consumption by 1 kg) by the kilograms of the order.
                 let orderDistanceBothWays = order.distance + (order.distance)*orderKg; //we carry the order only in one direction
                 let orderTimeBothWays = order.distance*2 + 5;
                 let orderDistanceOneWay = (order.distance)*orderKg;

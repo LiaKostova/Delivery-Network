@@ -19,7 +19,7 @@ function relocationAllUndeliveredOrdersAndFulfillThem(allWarehouses, mode){
     let weStillCanRelocate = true;
 
     
-       for(let order of atTheBegginingUndeliveredOrders){// По Поръчки
+       for(let order of atTheBegginingUndeliveredOrders){
             
             let areWeRelocateThisOrder = false;
             

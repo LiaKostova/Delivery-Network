@@ -49,10 +49,7 @@ function dronDeliveryNetwork(input){
     allOrders.sort((a,b) =>a.distance - b.distance);
         
     //We determine the nearest warehouse for an order and check if it is possible for the warehouse (the drone belonging to this warehouse) to complete the order.
-    let deliveredAtleastOneOrder = deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder(allOrders, allWarehouses);
-    
-
-
+    let deliveredAtleastOneOrder = deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder(allOrders, allWarehouses); //we try to deliver all orders in allOrders
     let isOrdersAreDeliveredAllOfThem = isAllOrdersAreDelivered(allWarehouses);
 
     if(isOrdersAreDeliveredAllOfThem !== true){ //Check if all warehouses can fulfill their orders with one drone.
@@ -63,7 +60,7 @@ function dronDeliveryNetwork(input){
          
         let areWedeliverAllOrders = false;
         while(areWedeliverAllOrders == false){
-            //chech can we still make a relocation all orders (fulfillthem)
+            //check can we still make a relocation all orders (fulfillthem)
             areWedeliverAllOrders = relocationAllUndeliveredOrdersAndFulfillThem(allWarehouses, 'normal');
            
             //if this is false - we need new drone;
@@ -130,7 +127,7 @@ allWhOriginalPropertiesTakeOnTheValuesOfTemporaryOnes(allWarehouses);
 for(let [whName, whData] of Object.entries(allWarehouses)){
     
     let totalUsedDronesForThisWh = whData.numOfTotalUsedDrones + whData.haveIdeliveredOrderFromThisWh;
-    if(totalUsedDronesForThisWh == 1){
+    if(totalUsedDronesForThisWh == 1){//We are interested only in the warehouses that have used only one drone.
         let allDeliveredOrders = whData.allOrdersWeCanDeliver;
         whData.undeliverableOrders = allDeliveredOrders;
         whData.allOrdersWeCanDeliver = [];
