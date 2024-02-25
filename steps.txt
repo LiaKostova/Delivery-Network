@@ -1,4 +1,0 @@
-//Data reading
-//Declarate Parameters
-//Check for invalid input
-//Creating Main Object to collect Information

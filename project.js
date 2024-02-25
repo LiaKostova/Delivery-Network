@@ -113,6 +113,13 @@ function dronDeliveryNetwork(input){
 
         }
     }
+console.log("Before final optimization:");
+outputCreation(allWarehouses);
+console.log('----------------------------------------------------------------------------------------------');
+
+
+
+//Final
 
 //Since our goal is to deliver all orders with as few drones as possible, we need to make another optimization.
 //Up until now, our program worked by assigning each order to its nearest warehouse. Consequently, in each warehouse, at least one drone was purchased (to fulfill that order and potentially for subsequent ones). Now, our goal is to check if we can redistribute the orders from those warehouses that have used only one drone.
@@ -152,6 +159,7 @@ for(let [whName, whData] of Object.entries(allWarehouses)){
 
     }
 }
+console.log("After final optimization:");
 outputCreation(allWarehouses);
 
 

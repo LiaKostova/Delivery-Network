@@ -1,14 +1,3 @@
-# Nemetschek Bulgaria RISE 2024 Homework
-
-### name
-Lia Kostova
-
-### email
-liakostova0210@gmail.com
-
-
-<!-- 
-//Process description and assumptions
 Our client is the mayor and the most important thing for him is the price!
 Therefore, to achieve the greatest efficiency, the goal of our program will be
 to get all orders out within the day, using as few drones as possible!
@@ -49,4 +38,4 @@ Until now, our program has worked by allocating each order to the nearest wareho
     -With the test inputs, we may notice that initially not every warehouse can fulfill its orders
     -I am trying to redistribute the orders to the other warehouses, but it is unsuccessful.
     -I buy a new drone -> it manages to distribute the unsuccessful orders.
-    -Then in the final stage - I try to fulfill the orders of the other two warehouses (which have one order each) with fewer drones. This is successful and we distribute the orders with one less drone. -->
+    -Then in the final stage - I try to fulfill the orders of the other two warehouses (which have one order each) with fewer drones. This is successful and we distribute the orders with one less drone.
