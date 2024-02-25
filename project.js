@@ -12,11 +12,11 @@ const returnAllPropertiesTheirOriginalValues = require('./utilsForMakingCopies/r
 const returnOrdersTheirOrigibalInfo = require('./utilsForMakingCopies/returnOrdersTheirOriginalInfo.js');
 const findWhereToBuyNewDrone = require('./utilsForDelivering/findWhereToBuyANewDrone.js');
 const findHighestPower = require('./utilsForBasicCalculations/findTheDroneWithHighestCapacity.js');
+const warehousesDailyWorkInfo = require('./findOutputs/warehousesDailyWorkInfo.js');
 const jsonData = fs.readFileSync('./input.json');
 const data = JSON.parse(jsonData);
 
 function dronDeliveryNetwork(input){
-    console.log(input);
 
     //Parameters declaration
     let customers = input.customers;
@@ -40,7 +40,7 @@ function dronDeliveryNetwork(input){
     let allOrders = [];
   
     initialization(warehouses, orders, products, customers, allWarehouses, allOrders, arrOfClientsObjs, typeOfDrones);
-    console.log(allOrders)
+
   
     //Part Two
     //Efficient order processing - Pre-sorting orders based on distance for optimal efficiency.
@@ -111,15 +111,21 @@ function dronDeliveryNetwork(input){
         /// check can we delivered all orders with less drones;
     }
 
-    let totalUsedDrones = 0;
-    for(let warehouse of Object.values(allWarehouses)){
-        //
-        totalUsedDrones += warehouse.numOfTotalUsedDrones; //The 'numOfTotalUsedDrones' metric includes all complementary drones. The 'haveIdeliveredOrderFromThisWh' indicator shows 0 if we haven't delivered from this warehouse (this drone) and 1 if we have.
-        totalUsedDrones +=warehouse.haveIdeliveredOrderFromThisWh;
-    }
-    console.log(totalUsedDrones);
+let dailyWorkInfo = warehousesDailyWorkInfo(allWarehouses);
+let dailyWorkInfoForAllWaehouses = dailyWorkInfo.pop();
 
-console.log(allWarehouses);
+let textForEachWh = '';
+for(let wh of dailyWorkInfo){
+   let textInfoForThisWh =  `The warehouse '${wh.whName}' used ${wh.usedDrones} drones to deliver ${wh.numOfOrders} orders. Its average delivery time is ${wh.averageTimeForAnOrderForThisWh} minutes.` + '\n'
+    textForEachWh += textInfoForThisWh;
+}
+
+let finalText = `Total Used Drones for today: ${dailyWorkInfoForAllWaehouses.totalUsedDrones}` + '\n' + `Average time for all orders: ${dailyWorkInfoForAllWaehouses.totalAverageTime} minutes`
+
+console.log(textForEachWh);
+console.log(finalText);
+
+
 
 
 }
