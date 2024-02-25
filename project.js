@@ -120,7 +120,6 @@ function dronDeliveryNetwork(input){
 
 allWhOriginalPropertiesTakeOnTheValuesOfTemporaryOnes(allWarehouses);
 
-
 for(let [whName, whData] of Object.entries(allWarehouses)){
     
     let totalUsedDronesForThisWh = whData.numOfTotalUsedDrones + whData.haveIdeliveredOrderFromThisWh;
