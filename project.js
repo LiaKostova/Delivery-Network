@@ -40,6 +40,7 @@ function dronDeliveryNetwork(input){
     let allOrders = [];
   
     initialization(warehouses, orders, products, customers, allWarehouses, allOrders, arrOfClientsObjs, typeOfDrones);
+    console.log(allOrders)
   
     //Part Two
     //Efficient order processing - Pre-sorting orders based on distance for optimal efficiency.
@@ -119,6 +120,7 @@ function dronDeliveryNetwork(input){
     console.log(totalUsedDrones);
 
 console.log(allWarehouses);
+
 
 }
 
