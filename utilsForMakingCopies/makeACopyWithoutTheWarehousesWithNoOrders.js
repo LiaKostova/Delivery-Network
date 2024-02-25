@@ -1,7 +1,13 @@
-function makeACopyWithoutTheWarehousesWithNoOrders(arrOfWh){
+function makeACopyWithoutTheWarehousesWithNoOrders(objOfTheCapableofOrdersWHs){
+    let objHelper = {}
+    for(let [whName, whData] of Object.entries(objOfTheCapableofOrdersWHs)){
+        let sumOfDrones = whData.haveIdeliveredOrderFromThisWh + whData.numOfTotalUsedDrones 
+        if(sumOfDrones !== 0){
+            objHelper[`${whName}`] = whData;
+        }
+    }
     
-    let arrOfWHWithoutTheOneswithZeroOrders = Object.values(arrOfWh).filter(obj => (obj.haveIdeliveredOrderFromThisWh + obj.numOfTotalUsedDrones ) !== 0);
-     return (arrOfWHWithoutTheOneswithZeroOrders);
+   return objHelper;
 }
 
 

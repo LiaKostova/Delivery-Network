@@ -33,11 +33,6 @@
 "name": "Left warehouse"
 }, 
 {
-    "x": 210,
-    "y": 210,
-    "name": "Test warehouse"
-},
-{
 "x": 200,
 "y": 200,
 "name": "Right warehouse"
@@ -52,20 +47,13 @@
 "y": 10
 }
 },
-{
-    "id": 12,
-    "name": "Lia Test",
-    "coordinates" : {
-    "x": 211,
-    "y": 211
-    }
-    },
+
 {
 "id": 2,
 "name": "Alfred Derrick",
 "coordinates" : {
-"x": 201,
-"y": 201
+"x": 213,
+"y": 187
 }
 },
 {
@@ -88,15 +76,6 @@
 }
 },
 {
-    "customerId": 12,
-    "productList" : {
-        "tomatoes" : 5,
-    "cucumber" : 5,
-    "cheese" : 1,
-    "milk" : 2
-    }
-    },
-{
     "customerId": 1,
     "productList" : {
         "eggs" : 10,
@@ -105,7 +84,17 @@
     "ham" : 2
     }
     },
-  
+    {
+    "customerId": 2,
+    "productList" : {
+        "eggs" : 10,
+    "tomatoes" : 2,
+    "bananas" : 5,
+    "carrots" : 15,
+    "bread" : 2,
+    "onion" : 6
+    }
+    },
     {
     "customerId": 3,
     "productList" : {
@@ -127,12 +116,12 @@
     {
     "customerId": 2,
     "productList" : {
-        "bananas" : 0,
-    "carrots" : 0,
-    "onion" : 1,
-    "cucumber" : 0,
-    "cheese" : 0,
-    "bread" : 0
+        "bananas" : 10,
+    "carrots" : 2,
+    "onion" : 5,
+    "cucumber" : 15,
+    "cheese" : 2,
+    "bread" : 6
     }
     }
 

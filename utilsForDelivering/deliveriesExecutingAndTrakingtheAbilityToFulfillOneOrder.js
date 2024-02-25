@@ -8,7 +8,7 @@ const calculatingNeededTimeForchargeandDeliver = require("./calculatingNeededTim
 //The main logic behind this function and how it works can be seen in its 'Graphical Representation,' which is located at -DeliveryLogic.html
 
 function deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder(allOrders, allWarehouses){
-    if(allOrders.length == 0 || allWarehouses.length ==0){
+    if(allOrders.length == 0 || Object.entries(allWarehouses).length ==0){
         return false;
     }
     let haveIDeliveredAtleastOneOrder = false;
@@ -16,7 +16,7 @@ function deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder(allOrders, all
         let order = allOrders.shift();
         let orderNearestWarehouse = order.nearestWarehouse;
         let warehousesNames = Object.keys(allWarehouses);
-        let warehouseValue = Object.values(allWarehouses)[0];
+        let warehouseValue = Object.values(allWarehouses);
         let originaFullDronCapacityPower = Number(warehouseValue.originaFullCapacityPower);
         
 

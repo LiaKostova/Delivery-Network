@@ -64,7 +64,7 @@ function dronDeliveryNetwork(input){
         let areWedeliverAllOrders = false;
         while(areWedeliverAllOrders == false){
             //chech can we still make a relocation all orders (fulfillthem)
-            areWedeliverAllOrders = relocationAllUndeliveredOrdersAndFulfillThem(allWarehouses);
+            areWedeliverAllOrders = relocationAllUndeliveredOrdersAndFulfillThem(allWarehouses, 'normal');
            
             //if this is false - we need new drone;
             if(areWedeliverAllOrders == false){
@@ -83,6 +83,9 @@ function dronDeliveryNetwork(input){
                 allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].haveIdeliveredOrderFromThisWh =0;
                 allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].remainingMinutesOfTheDay=720;
                 allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].remainingPowerOfTheDay = findHighestPower(typeOfDrones).actualPowerWPerMin;
+                if( allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].undeliverableOrders[0] =='Our first drone filled the maximum number of orders for the day and finished.'){
+                    allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].undeliverableOrders.shift();
+                }
 
                 let arrayOfUndeliveredOrders = [];
                 let theWarehouseUdeliveredOrdersArr = allWarehouses[`${inWhichWarehouseToBuyNewDrone}`].undeliverableOrders;
@@ -115,16 +118,19 @@ function dronDeliveryNetwork(input){
 //Up until now, our program worked by assigning each order to its nearest warehouse. Consequently, in each warehouse, at least one drone was purchased (to fulfill that order and potentially for subsequent ones). Now, our goal is to check if we can redistribute the orders from those warehouses that have used only one drone.
 
 
-allWhOriginalPropertiesTakeOnTheValuesOfTemporaryOnes(allWarehouses)
+allWhOriginalPropertiesTakeOnTheValuesOfTemporaryOnes(allWarehouses);
+
 
 for(let [whName, whData] of Object.entries(allWarehouses)){
+    
     let totalUsedDronesForThisWh = whData.numOfTotalUsedDrones + whData.haveIdeliveredOrderFromThisWh;
     if(totalUsedDronesForThisWh == 1){
         let allDeliveredOrders = whData.allOrdersWeCanDeliver;
         whData.undeliverableOrders = allDeliveredOrders;
         whData.allOrdersWeCanDeliver = [];
+        
 
-        let isTheRelocationSuccessful = relocationAllUndeliveredOrdersAndFulfillThem(allWarehouses, "finalTry");
+        let isTheRelocationSuccessful = relocationAllUndeliveredOrdersAndFulfillThem(allWarehouses, 'finalTry');
 
         if(isTheRelocationSuccessful == true){
             whData.allOrdersWeCanDeliver = [];

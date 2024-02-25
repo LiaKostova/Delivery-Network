@@ -1,4 +1,4 @@
-function findOrderNearestWarehouse(order, arrOfWarehouses){
+function findOrderNearestWarehouse(order, objOfWhs){
     let orderCoordinates = order.coordinates;
     
     let xOrder = Number(orderCoordinates.x);
@@ -7,8 +7,9 @@ function findOrderNearestWarehouse(order, arrOfWarehouses){
     let nearestWH = "";
     let distance = "";
 
-    for(let i =0; i<arrOfWarehouses.length; i++){
-        let currentWH = arrOfWarehouses[i];
+    let arrOfWhValues = Object.values(objOfWhs)
+    for(let i =0; i<arrOfWhValues.length; i++){
+        let currentWH = arrOfWhValues[i];
         let xWH = Number(currentWH.x);
         let yWH = Number(currentWH.y);
 
