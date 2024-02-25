@@ -4,9 +4,11 @@ function copyALlObjProperties(warehouse){
     let warehouseProperties = Object.entries(warehouse);
 
     for( let [key, value] of warehouseProperties){
-        let newNameKey = "original" + key;
-   
-        warehouse[`${newNameKey}`] = value; 
+        if(!key.includes("original")){
+            let newNameKey = "original" + key;   
+             warehouse[`${newNameKey}`] = value; 
+        }
+        
     }
 
 }

@@ -1,13 +1,18 @@
 const allUndeliveredOrders = require("../utilsForMakingCopies/allUndelivеredOrders.js");
+const makeACopyWithoutTheWarehousesWithNoOrders = require("../utilsForMakingCopies/makeACopyWithoutTheWarehousesWithNoOrders.js");
 const capableOfDeliveryWH = require("../utilsForMakingCopies/onlyCapableOfDeliveryWH.js");
 const deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder = require("./deliveriesExecutingAndTrakingtheAbilityToFulfillOneOrder.js");
 const findOrderNearestWarehouse = require("./findOrderNearestWH.js");
 
-function relocationAllUndeliveredOrdersAndFulfillThem(allWarehouses){
+function relocationAllUndeliveredOrdersAndFulfillThem(allWarehouses, mode){
     
     let weStillCanRelocate = true;
     while(weStillCanRelocate){
         let arrOfTheCapableOfOrdersWHs = capableOfDeliveryWH(allWarehouses);  
+        if(mode == 'finalTry'){
+            let helperArr = makeACopyWithoutTheWarehousesWithNoOrders(arrOfTheCapableOfOrdersWHs);
+            arrOfTheCapableOfOrdersWHs = helperArr;
+        }
        let allOFUndeliveredOrders = allUndeliveredOrders(allWarehouses);
 
         for(let ord of allOFUndeliveredOrders){

@@ -14,6 +14,7 @@ const findWhereToBuyNewDrone = require('./utilsForDelivering/findWhereToBuyANewD
 const findHighestPower = require('./utilsForBasicCalculations/findTheDroneWithHighestCapacity.js');
 const warehousesDailyWorkInfo = require('./findOutputs/warehousesDailyWorkInfo.js');
 const outputCreation = require('./findOutputs/outputCreation.js');
+const allWhOriginalPropertiesTakeOnTheValuesOfTemporaryOnes = require('./utilsForMakingCopies/allWhOriginalPropertiesTakeOnTheValuesOfTemporaryOnes.js');
 const jsonData = fs.readFileSync('./input.json');
 const data = JSON.parse(jsonData);
 
@@ -108,13 +109,44 @@ function dronDeliveryNetwork(input){
             }
 
         }
-    }else{
-        /// check can we delivered all orders with less drones;
     }
 
+//Since our goal is to deliver all orders with as few drones as possible, we need to make another optimization.
+//Up until now, our program worked by assigning each order to its nearest warehouse. Consequently, in each warehouse, at least one drone was purchased (to fulfill that order and potentially for subsequent ones). Now, our goal is to check if we can redistribute the orders from those warehouses that have used only one drone.
+
+
+allWhOriginalPropertiesTakeOnTheValuesOfTemporaryOnes(allWarehouses)
+
+for(let [whName, whData] of Object.entries(allWarehouses)){
+    let totalUsedDronesForThisWh = whData.numOfTotalUsedDrones + whData.haveIdeliveredOrderFromThisWh;
+    if(totalUsedDronesForThisWh == 1){
+        let allDeliveredOrders = whData.allOrdersWeCanDeliver;
+        whData.undeliverableOrders = allDeliveredOrders;
+        whData.allOrdersWeCanDeliver = [];
+
+        let isTheRelocationSuccessful = relocationAllUndeliveredOrdersAndFulfillThem(allWarehouses, "finalTry");
+
+        if(isTheRelocationSuccessful == true){
+            whData.allOrdersWeCanDeliver = [];
+            whData.totalDistance = 0;
+            whData.timeNeededForAllOrders = 0;
+            whData.remainingPowerOfTheDay = findHighestPower(typeOfDrones).actualPowerWPerMin;
+            whData.remainingMinutesOfTheDay = 720;
+            whData.undeliverableOrders = [];
+            whData.originaFullCapacityPower=0;
+            whData.numOfTotalUsedDrones = 0;
+            whData.haveIdeliveredOrderFromThisWh=0;
+
+            allWhOriginalPropertiesTakeOnTheValuesOfTemporaryOnes(allWarehouses);
 
 
 
+        }else{
+            returnAllPropertiesTheirOriginalValues(allWarehouses);
+        }
+
+    }
+}
 outputCreation(allWarehouses);
 
 
