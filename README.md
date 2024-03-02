@@ -1,25 +1,23 @@
-# Nemetschek Bulgaria RISE 2024 Homework
-
-### name
-Lia Kostova
-
-### email
-liakostova0210@gmail.com
-
-
 <!-- 
+Development of a program for the delivery of goods for the mayor of a large city.
+
+//Conditions
+Based on the database of warehouse coordinates, customer coordinates, and the size of their orders, we calculate how many drones we will need at a minimum to fulfill all orders within a day. Each drone can carry only one order. 
+
+A successful order is considered when it is delivered to the customer's door. If a drone doesn't have enough battery to return to the warehouse, it can't be used again until the end of the day. Drones don't wait for customers to retrieve their orders. For each order, a drone spends 5 minutes in the warehouse (loading the order). Drones can recharge at any warehouse, and it takes 20 minutes to fully recharge their capacity (proportionally for not a full charges).
+
+Мovement speed can be considered constant and equal to a single unit in the map for a minute. The drone power consumption, in W per kilograms per minute. The battery capacity of each drone, in kW.
+
 //Process description and assumptions
 Our client is the mayor and the most important thing for him is the price!
 Therefore, to achieve the greatest efficiency, the goal of our program will be
 to get all orders out within the day, using as few drones as possible!
 
 
-
 //Assumption taken at the time:
 1.	A day has a duration of 12 hours
 2.	Distance and minutes are interchangeable therefore 1 unit of distance is equal to 1 min.
-3.	Due to the lack of data regarding the price difference between drones with different capacities, we will only use the most durable type of drones.
-4.	Due to the lack of data of "how fast" or more precisely "how much faster is the charging at the "fast stations", the drones will be charged at the warehouses so that no time is wasted in travel (between the drone targets and the charging stations).
+3.	The drones will be charged at the warehouses.
 5. The kilograms impact the following in our program - power wasted in 1 min (1unit) for a 5 kg order is the same as power wasted in 5min(5 units) for 1 kg.
 
 //Stages of the application
